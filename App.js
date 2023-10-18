@@ -53,7 +53,7 @@ const App = () => {
         search
         maxHeight={300}
         labelField="name"
-        valueField="name"
+        valueField="id"
         placeholder="Select a coin"
         searchPlaceholder="Search..."
         value={testCoin}
