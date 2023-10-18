@@ -215,6 +215,8 @@ const styles = StyleSheet.create({
     margin: 15,
   },
   dropdown: {
+    flex: 1,
+    alignContent: "center",
     margin: 16,
     height: 50,
     backgroundColor: "white",
@@ -227,7 +229,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
-
+    marginHorizontal: "15vw",
     elevation: 2,
   },
   icon: {
