@@ -18,13 +18,20 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./images/logocool3.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.poortexan.coincheckerrevamp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ffcfa34c-9012-4b1e-9e6b-9c90c1299dd3"
+      }
     }
   }
 }
