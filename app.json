@@ -4,7 +4,7 @@
     "slug": "coin-checker-revamp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./images/logocool3.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./images/logocool3.png",
