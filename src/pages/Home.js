@@ -17,6 +17,7 @@ import {
   Pressable,
 } from "react-native";
 import axios from "axios";
+import { StatusBar } from "expo-status-bar";
 import { Dropdown } from "react-native-element-dropdown";
 
 //local JSON Imports
@@ -38,9 +39,12 @@ const Home = () => {
   const [coinSelected, setCoinSelected] = React.useState(false);
   const [currencySelected, setCurrencySelected] = React.useState(false);
   const [modalVisible, setModalVisible] = React.useState(false);
+  const [errorModalVisible, setErrorModalVisible] = React.useState(false);
 
   return (
     <ScrollView style={styles.container}>
+      <StatusBar style="light" backgroundColor="#27394A" />
+
       <Text style={styles.textTop}>Built by OOCAZ / Zac Poorman</Text>
       <Text style={{ color: "white" }}></Text>
       <Dropdown
@@ -95,27 +99,21 @@ const Home = () => {
               setModalVisible(true);
               return;
             }
-            URL = "https://api.coingecko.com/api/v3/coins/" + testCoin;
             axios
-              .get(URL.toString(), {
+              .get(`https://api.coingecko.com/api/v3/coins/${testCoin}`, {
                 headers: { accept: "application/json" },
               })
               .then((response) => {
-                // If request is good...
-                //console.log("successfully got request");
-                //console.log(response.data);
-                var builtPrice =
-                  "response.data.market_data.current_price." + testCurrency;
-                var builtDate = "response.data.last_updated";
-                var builthigh24 =
-                  "response.data.market_data.high_24h." + testCurrency;
-                var builtlow24 =
-                  "response.data.market_data.low_24h." + testCurrency;
-                //eval() function allows us to interpret a string as a variable name or math operation
-                setCoinPrice(eval(builtPrice));
-                setLastUpdate(eval(builtDate));
-                setHigh24(eval(builthigh24));
-                setLow24(eval(builtlow24));
+                if (response.status === 200) {
+                  setCoinPrice(
+                    response.data.market_data.current_price[testCurrency]
+                  );
+                  setLastUpdate(response.data.last_updated);
+                  setHigh24(response.data.market_data.high_24h[testCurrency]);
+                  setLow24(response.data.market_data.low_24h[testCurrency]);
+                } else {
+                  setErrorModalVisible(true);
+                }
               })
               .catch((error) => {
                 console.log("error " + error);
@@ -173,6 +171,28 @@ const Home = () => {
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>Acknkowledge</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={errorModalVisible}
+        onRequestClose={() => {
+          setErrorModalVisible(!errorModalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>
+              Request Failed, Please Try Again!
+            </Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setErrorModalVisible(!errorModalVisible)}
             >
               <Text style={styles.textStyle}>Acknkowledge</Text>
             </Pressable>
