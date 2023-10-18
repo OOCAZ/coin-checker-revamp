@@ -116,6 +116,7 @@ const Home = () => {
                 }
               })
               .catch((error) => {
+                setErrorModalVisible(true);
                 console.log("error " + error);
               });
           }}
