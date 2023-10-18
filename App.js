@@ -60,7 +60,6 @@ const App = () => {
         onChange={(item) => {
           setTestCoin(item.id);
           setCoinSelected(true);
-          console.log(item.id);
         }}
       />
 
@@ -81,7 +80,6 @@ const App = () => {
         onChange={(item) => {
           setTestCurrency(item.name);
           setCurrencySelected(true);
-          console.log(item.name);
         }}
       />
       <View
