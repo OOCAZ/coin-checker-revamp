@@ -104,16 +104,12 @@ const Home = () => {
                 headers: { accept: "application/json" },
               })
               .then((response) => {
-                if (response.status === 200) {
-                  setCoinPrice(
-                    response.data.market_data.current_price[testCurrency]
-                  );
-                  setLastUpdate(response.data.last_updated);
-                  setHigh24(response.data.market_data.high_24h[testCurrency]);
-                  setLow24(response.data.market_data.low_24h[testCurrency]);
-                } else {
-                  setErrorModalVisible(true);
-                }
+                setCoinPrice(
+                  response.data.market_data.current_price[testCurrency]
+                );
+                setLastUpdate(response.data.last_updated);
+                setHigh24(response.data.market_data.high_24h[testCurrency]);
+                setLow24(response.data.market_data.low_24h[testCurrency]);
               })
               .catch((error) => {
                 setErrorModalVisible(true);
