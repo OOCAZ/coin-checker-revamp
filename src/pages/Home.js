@@ -10,12 +10,12 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
   ScrollView,
   Linking,
   Modal,
   Pressable,
 } from "react-native";
+import { Button } from "react-native-paper";
 import axios from "axios";
 import { StatusBar } from "expo-status-bar";
 import { Dropdown } from "react-native-element-dropdown";
@@ -91,9 +91,12 @@ const Home = () => {
           color: "white",
           alignSelf: "center",
           paddingHorizontal: 100,
+          paddingVertical: 20,
         }}
       >
         <Button
+          mode="contained"
+          contentStyle={{ height: 75, backgroundColor: "#009900" }}
           onPress={() => {
             if (!coinSelected || !currencySelected) {
               setModalVisible(true);
@@ -116,10 +119,10 @@ const Home = () => {
                 console.log("error " + error);
               });
           }}
-          title="Check Price"
-          color="#0B8CFD"
           accessibilityLabel="Press to find the crypto price"
-        />
+        >
+          <Text style={{ fontSize: 20 }}>Check Price</Text>
+        </Button>
       </View>
       <Text placeholder="price will appear here" style={styles.textLower}>
         Price Per Coin: {coinPrice}
