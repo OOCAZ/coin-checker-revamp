@@ -6,7 +6,7 @@ We just provide a small Crypto Currency checker.
 
 ## Installation
 
-Just clone the repo and run `npm run install && npm run start` Then you should be good to go! Or just visit https://www.coinchecker.online/ to get the website version of this site
+Just clone the repo and run `npm install && npm run start` Then you should be good to go! Or just visit https://www.coinchecker.online/ to get the website version of this site
 
 ## Usage
 
