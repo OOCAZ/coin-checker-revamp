@@ -9,7 +9,7 @@ import {
   Modal,
   Pressable,
 } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, ActivityIndicator } from "react-native-paper";
 import axios from "axios";
 import { StatusBar } from "expo-status-bar";
 import { Dropdown } from "react-native-element-dropdown";
@@ -35,6 +35,32 @@ const Home = () => {
   const [currencySelected, setCurrencySelected] = React.useState(false);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [errorModalVisible, setErrorModalVisible] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isCoinSelected, setIsCoinSelected] = React.useState(false);
+
+  async function getCoinPrice() {
+    if (!coinSelected || !currencySelected) {
+      setIsLoading(false);
+      setModalVisible(true);
+      return;
+    }
+    axios
+      .get(`https://api.coingecko.com/api/v3/coins/${testCoin}`, {
+        headers: { accept: "application/json" },
+      })
+      .then((response) => {
+        setCoinPrice(response.data.market_data.current_price[testCurrency]);
+        setLastUpdate(response.data.last_updated);
+        setHigh24(response.data.market_data.high_24h[testCurrency]);
+        setLow24(response.data.market_data.low_24h[testCurrency]);
+        setIsCoinSelected(true);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setErrorModalVisible(true);
+        console.log("error " + error);
+      });
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -93,51 +119,61 @@ const Home = () => {
           mode="contained"
           contentStyle={{ height: 75, backgroundColor: "#009900" }}
           onPress={() => {
-            if (!coinSelected || !currencySelected) {
-              setModalVisible(true);
-              return;
-            }
-            axios
-              .get(`https://api.coingecko.com/api/v3/coins/${testCoin}`, {
-                headers: { accept: "application/json" },
-              })
-              .then((response) => {
-                setCoinPrice(
-                  response.data.market_data.current_price[testCurrency]
-                );
-                setLastUpdate(response.data.last_updated);
-                setHigh24(response.data.market_data.high_24h[testCurrency]);
-                setLow24(response.data.market_data.low_24h[testCurrency]);
-              })
-              .catch((error) => {
-                setErrorModalVisible(true);
-                console.log("error " + error);
-              });
+            setIsLoading(true);
+            getCoinPrice();
           }}
           accessibilityLabel="Press to find the crypto price"
         >
           <Text style={{ fontSize: 20 }}>Check Price</Text>
         </Button>
       </View>
-      <Text placeholder="price will appear here" style={styles.textLower}>
-        Price Per Coin: {coinPrice}
-      </Text>
-      <Text
-        placeholder="last updated date will appear here"
-        style={styles.textLower}
-      >
-        Last Updated: {lastUpdate}
-      </Text>
-      <Text placeholder="24 high will appear here" style={styles.textLower}>
-        24 Hour High: {high24}
-      </Text>
-      <Text placeholder="24 low will appear here" style={styles.textLower}>
-        24 Hour Low: {low24}
-      </Text>
+      {isLoading ? (
+        <View>
+          <ActivityIndicator animating={true} color="#009900" />
+          <Text style={styles.textLowerOnly}>Loading...</Text>
+        </View>
+      ) : null}
+      {isCoinSelected ? (
+        <View>
+          <Text
+            placeholder="price will appear here"
+            style={styles.textLowerOnly}
+          >
+            Price Per Coin: {coinPrice}
+          </Text>
+          <Text
+            placeholder="last updated date will appear here"
+            style={styles.textLowerOnly}
+          >
+            Last Updated: {lastUpdate}
+          </Text>
+          <Text
+            placeholder="24 high will appear here"
+            style={styles.textLowerOnly}
+          >
+            24 Hour High: {high24}
+          </Text>
+          <Text
+            placeholder="24 low will appear here"
+            style={styles.textLowerOnly}
+          >
+            24 Hour Low: {low24}
+          </Text>
 
-      <Text placeholder="24 low will appear here" style={styles.textLower}>
-        {" "}
-      </Text>
+          <Text
+            placeholder="24 low will appear here"
+            style={styles.textLowerOnly}
+          >
+            {" "}
+          </Text>
+        </View>
+      ) : (
+        <View>
+          <Text style={styles.textLowerOnly}>
+            Please select a Coin and a Currency
+          </Text>
+        </View>
+      )}
 
       <Text
         style={styles.textLower}

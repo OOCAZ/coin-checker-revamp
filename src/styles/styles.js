@@ -13,6 +13,12 @@ const styles = StyleSheet.create({
     margin: 10,
     alignSelf: "center",
   },
+  textLowerOnly: {
+    color: "white",
+    margin: 10,
+    alignSelf: "center",
+    fontSize: 30,
+  },
   textTop: {
     color: "white",
     marginTop: 50,
@@ -81,7 +87,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: "#006400",
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
@@ -98,12 +104,13 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     elevation: 2,
+    fontSize: 20,
   },
   buttonOpen: {
-    backgroundColor: "#F194FF",
+    backgroundColor: "red",
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "red",
   },
   textStyle: {
     color: "white",
@@ -112,9 +119,10 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 15,
-    color: "red",
+    fontSize: 20,
+    color: "white",
     textAlign: "center",
   },
 });
 
-export default styles
+export default styles;
