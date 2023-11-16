@@ -57,6 +57,7 @@ const Home = () => {
         setIsLoading(false);
       })
       .catch((error) => {
+        setIsLoading(false);
         setErrorModalVisible(true);
         console.log("error " + error);
       });
