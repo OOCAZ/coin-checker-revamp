@@ -16,7 +16,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import styles from "../styles/styles";
 
 //local JSON Imports
-import coinList from "../../assets/json/coinList10-17.json";
+import coinList from "../../assets/json/coinList11-16.json";
 import currencyList from "../../assets/json/currencyList.json";
 
 //URL to call for Doge
