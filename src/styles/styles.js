@@ -19,6 +19,12 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     fontSize: 30,
   },
+  textCompare: {
+    color: "white",
+    margin: 10,
+    alignSelf: "center",
+    fontSize: 20,
+  },
   textTop: {
     color: "white",
     marginTop: 50,

@@ -22,7 +22,8 @@ import currencyList from "../../assets/json/currencyList.json";
 //URL to call for Doge
 //https://api.coingecko.com/api/v3/coins/dogecoin
 
-const Home = ({ navigation, route }) => {
+const Compare = ({ navigation, route }) => {
+  //firstCoin vars
   const [coinPrice, setCoinPrice] = React.useState("Rate will appear here");
   const [lastUpdate, setLastUpdate] = React.useState(
     "Last update will appear here"
@@ -31,15 +32,28 @@ const Home = ({ navigation, route }) => {
   const [low24, setLow24] = React.useState("24 hour low will appear here");
   const [testCoin, setTestCoin] = React.useState("");
   const [testCurrency, setTestCurrency] = React.useState("");
-  const [coinSelected, setCoinSelected] = React.useState(false);
+
+  //secondCoin vars
+  const [testCoin2, setTestCoin2] = React.useState("");
+  const [lastUpdate2, setLastUpdate2] = React.useState(
+    "Last update will appear here"
+  );
+  const [coinPrice2, setCoinPrice2] = React.useState("Rate will appear here");
+  const [testCurrency2, setTestCurrency2] = React.useState("");
+  const [high242, setHigh242] = React.useState("24 hour high will appear here");
+  const [low242, setLow242] = React.useState("24 hour low will appear here");
+
+  //other vars
   const [currencySelected, setCurrencySelected] = React.useState(false);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [errorModalVisible, setErrorModalVisible] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isCoinSelected, setIsCoinSelected] = React.useState(false);
+  const [coinSelected, setCoinSelected] = React.useState(false);
+  const [coin2Selected, setCoin2Selected] = React.useState(false);
 
   async function getCoinPrice() {
-    if (!coinSelected || !currencySelected) {
+    if (!coinSelected || !coin2Selected || !currencySelected) {
       setIsLoading(false);
       setModalVisible(true);
       return;
@@ -49,6 +63,24 @@ const Home = ({ navigation, route }) => {
         headers: { accept: "application/json" },
       })
       .then((response) => {
+        //request for 2nd coin
+        axios
+          .get(`https://api.coingecko.com/api/v3/coins/${testCoin2}`, {
+            headers: { accept: "application/json" },
+          })
+          .then((response2) => {
+            setCoinPrice2(
+              response2.data.market_data.current_price[testCurrency]
+            );
+            setLastUpdate2(response2.data.last_updated);
+            setHigh242(response2.data.market_data.high_24h[testCurrency]);
+            setLow242(response2.data.market_data.low_24h[testCurrency]);
+          })
+          .catch((error) => {
+            setIsLoading(false);
+            setErrorModalVisible(true);
+            console.log("error " + error);
+          });
         setCoinPrice(response.data.market_data.current_price[testCurrency]);
         setLastUpdate(response.data.last_updated);
         setHigh24(response.data.market_data.high_24h[testCurrency]);
@@ -86,6 +118,25 @@ const Home = ({ navigation, route }) => {
         onChange={(item) => {
           setTestCoin(item.id);
           setCoinSelected(true);
+        }}
+      />
+      <Dropdown
+        style={styles.dropdown}
+        placeholderStyle={styles.placeholderStyle}
+        selectedTextStyle={styles.selectedTextStyle}
+        inputSearchStyle={styles.inputSearchStyle}
+        iconStyle={styles.iconStyle}
+        data={coinList}
+        search
+        maxHeight={300}
+        labelField="name"
+        valueField="id"
+        placeholder="Select a second coin"
+        searchPlaceholder="Search..."
+        value={testCoin2}
+        onChange={(item) => {
+          setTestCoin2(item.id);
+          setCoin2Selected(true);
         }}
       />
 
@@ -135,46 +186,76 @@ const Home = ({ navigation, route }) => {
         </View>
       ) : null}
       {isCoinSelected ? (
-        <View>
-          <Text
-            placeholder="price will appear here"
-            style={styles.textLowerOnly}
-          >
-            Price Per Coin: {coinPrice}
-          </Text>
+        <View style={{ alignItems: "center" }}>
+          <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: "column" }}>
+              <Text style={styles.textCompare}>Coin 1</Text>
+              <Text
+                placeholder="price will appear here"
+                style={styles.textCompare}
+              >
+                Price Per Coin: {coinPrice}
+              </Text>
+              <Text
+                placeholder="24 high will appear here"
+                style={styles.textCompare}
+              >
+                24 Hour High: {high24}
+              </Text>
+              <Text
+                placeholder="24 low will appear here"
+                style={styles.textCompare}
+              >
+                24 Hour Low: {low24}
+              </Text>
+
+              <Text
+                placeholder="24 low will appear here"
+                style={styles.textCompare}
+              >
+                {" "}
+              </Text>
+            </View>
+            <View style={{ flexDirection: "column" }}>
+              <Text style={styles.textCompare}>Coin 2</Text>
+              <Text
+                placeholder="price will appear here"
+                style={styles.textCompare}
+              >
+                Price Per Coin: {coinPrice2}
+              </Text>
+              <Text
+                placeholder="24 high will appear here"
+                style={styles.textCompare}
+              >
+                24 Hour High: {high242}
+              </Text>
+              <Text
+                placeholder="24 low will appear here"
+                style={styles.textCompare}
+              >
+                24 Hour Low: {low242}
+              </Text>
+
+              <Text
+                placeholder="24 low will appear here"
+                style={styles.textCompare}
+              >
+                {" "}
+              </Text>
+            </View>
+          </View>
           <Text
             placeholder="last updated date will appear here"
-            style={styles.textLowerOnly}
+            style={styles.textCompare}
           >
             Last Updated: {lastUpdate}
-          </Text>
-          <Text
-            placeholder="24 high will appear here"
-            style={styles.textLowerOnly}
-          >
-            24 Hour High: {high24}
-          </Text>
-          <Text
-            placeholder="24 low will appear here"
-            style={styles.textLowerOnly}
-          >
-            24 Hour Low: {low24}
-          </Text>
-
-          <Text
-            placeholder="24 low will appear here"
-            style={styles.textLowerOnly}
-          >
-            {" "}
           </Text>
         </View>
       ) : (
         <View>
           <Text style={styles.textLowerOnly}>
-            Please select a Coin and a Currency.
-          </Text>
-          <Text style={styles.textLowerOnly}>
-            Or click below to compare two coins!
+            Please select a Coin and a Currency
           </Text>
         </View>
       )}
@@ -190,11 +271,11 @@ const Home = ({ navigation, route }) => {
           mode="contained"
           contentStyle={{ height: 75, backgroundColor: "#009900" }}
           onPress={() => {
-            navigation.navigate("Compare");
+            navigation.navigate("Home");
           }}
           accessibilityLabel="Press to find the crypto price"
         >
-          <Text style={{ fontSize: 20 }}>Compare Two Coins</Text>
+          <Text style={{ fontSize: 20 }}>Back to Coin Checker</Text>
         </Button>
       </View>
 
@@ -257,4 +338,4 @@ const Home = ({ navigation, route }) => {
   );
 };
 
-export default Home;
+export default Compare;
