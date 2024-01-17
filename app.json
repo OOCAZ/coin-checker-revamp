@@ -2,7 +2,7 @@
   "expo": {
     "name": "coin-checker-revamp",
     "slug": "coin-checker-revamp",
-    "version": "1.0.2",
+    "version": "1.0.8",
     "orientation": "portrait",
     "icon": "./images/logocool3.png",
     "userInterfaceStyle": "light",
@@ -18,7 +18,7 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 7,
+      "versionCode": 8,
       "adaptiveIcon": {
         "foregroundImage": "./images/logocool3.png",
         "backgroundColor": "#ffffff"
